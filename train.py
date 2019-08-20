@@ -15,11 +15,6 @@ import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import torchvision.models as models
-
-import numpy as np
-from multiprocessing import Pool
-from collections import defaultdict
-
 import nasnet
 
 model_names = sorted(name for name in models.__dict__

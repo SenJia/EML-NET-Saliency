@@ -1,5 +1,3 @@
-# This file is data load for pytorch, but following the input format of caffe library.
-# The number of classes is not required for label conversion.
 # Two arguments are needed to load image files: one is the root of directory,
 #                                               the other is a txt file containing filepath and label.
 # The created ImageFile object can be passed to a pytorch DataLoader for multi-threading process.

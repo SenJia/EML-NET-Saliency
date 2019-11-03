@@ -3,7 +3,9 @@ import torch.nn as nn
 #import torch.nn.functional as F
 
 class EMLLoss(nn.Module):
-    self.eps = 1e-6
+    def __init__(self):
+        super(EMLLoss, self).__init__()
+        self.eps = 1e-6
 
     def KL_loss(self, input, target):
         input = input / input.sum() 
@@ -24,8 +26,8 @@ class EMLLoss(nn.Module):
         loss = (ref*target - input*target).sum() / target.sum()
         return loss 
 
-    def forward(self, input, target):
+    def forward(self, input, fixs, target):
         kl_loss = self.KL_loss(input, target)
         cc_loss = self.CC_loss(input, target)
-        nss_loss = self.NSS_loss(input, target)
+        nss_loss = self.NSS_loss(input, fixs)
         return kl_loss + cc_loss + nss_loss

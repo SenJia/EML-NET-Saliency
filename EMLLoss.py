@@ -26,8 +26,12 @@ class EMLLoss(nn.Module):
         loss = (ref*target - input*target).sum() / target.sum()
         return loss 
 
-    def forward(self, input, fixs, target):
-        kl_loss = self.KL_loss(input, target)
-        cc_loss = self.CC_loss(input, target)
-        nss_loss = self.NSS_loss(input, fixs)
-        return (kl_loss + cc_loss + nss_loss) / input.size(0)
+    def forward(self, input, fixs, smap):
+        kl = 0
+        cc = 0
+        nss = 0
+        for p, f, s in zip(input, fixs, smap):
+            kl += self.KL_loss(p, s)
+            cc += self.CC_loss(p, s)
+            nss += self.NSS_loss(p, f)
+        return (kl + cc + nss) / input.size(0)

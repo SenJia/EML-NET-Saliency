@@ -30,4 +30,4 @@ class EMLLoss(nn.Module):
         kl_loss = self.KL_loss(input, target)
         cc_loss = self.CC_loss(input, target)
         nss_loss = self.NSS_loss(input, fixs)
-        return kl_loss + cc_loss + nss_loss
+        return (kl_loss + cc_loss + nss_loss) / input.size(0)

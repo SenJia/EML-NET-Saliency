@@ -10,18 +10,14 @@ import torch.nn.functional as F
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152']
 
-
 model_urls = {
     'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
 }
-
 
 def conv3x3(in_planes, out_planes, stride=1):
     "3x3 convolution with padding"
     conv = nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
                      padding=1, bias=False)
-    #return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
-    #                 padding=1, bias=False)
     return conv 
 
 class BasicBlock(nn.Module):
@@ -123,8 +119,7 @@ class ResNet(nn.Module):
         self.output3 = self._make_output(1024, readout=self.mid_channels) 
         self.output4 = self._make_output(2048, readout=self.mid_channels) 
 
-        self.combined = self._make_output(5, sig=True) 
-        #self.gau_filters = self._make_gaussian()
+        self.combined = self._make_output(5, sigmoid=True)  # use sigmoid for activation in the last layer.
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -134,13 +129,12 @@ class ResNet(nn.Module):
                 m.weight.data.fill_(1)
                 m.bias.data.zero_()
 
-    def _make_output(self, planes, readout=1, sig=False):
+    def _make_output(self, planes, readout=1, sigmoid=False):
         layers = [
-            #nn.Conv2d(planes, readout, kernel_size=3, padding=1),
-            nn.Conv2d(planes, readout, kernel_size=1, padding=0),
+            nn.Conv2d(planes, readout, kernel_size=3, padding=1),
             nn.BatchNorm2d(readout),
         ]
-        if sig:
+        if sigmoid:
             layers.append(nn.Sigmoid())
         else:
             layers.append(nn.ReLU(inplace=True))

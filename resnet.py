@@ -6,14 +6,6 @@ import numpy as np
 import scipy.ndimage.filters as filters
 import torch.nn.functional as F
 
-
-__all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
-           'resnet152']
-
-model_urls = {
-    'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
-}
-
 def conv3x3(in_planes, out_planes, stride=1):
     "3x3 convolution with padding"
     conv = nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,

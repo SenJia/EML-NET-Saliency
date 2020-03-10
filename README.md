@@ -3,6 +3,11 @@ This repo contains the code and the pre-computed saliency maps used in our paper
 
 <img src="https://github.com/SenJia/EML-NET-Saliency/blob/master/examples/EMLNET.jpg" width="80%">
 
+| GroundTruth  | Combined | ImageNet | PLACE |
+| ------------- | ------------- | ----------| ----------|
+| <img src="https://github.com/SenJia/EML-NET-Saliency/blob/master/examples/gt_COCO_val2014_000000198590.png" width="300px" height="200px"> |  <img src="https://github.com/SenJia/EML-NET-Saliency/blob/master/examples/combined_COCO_val2014_000000198590.png" width="300px" height="200px">| <img src="https://github.com/SenJia/EML-NET-Saliency/blob/master/examples/imagenet_COCO_val2014_000000198590.png" width="300px" height="200px">| <img src="https://github.com/SenJia/EML-NET-Saliency/blob/master/examples/place_COCO_val2014_000000198590.png" width="300px" height="200px">
+| <img src="https://github.com/SenJia/EML-NET-Saliency/blob/master/examples/gt_COCO_val2014_000000203754.png" width="300px" height="200px"> |  <img src="https://github.com/SenJia/EML-NET-Saliency/blob/master/examples/combined_COCO_val2014_000000203754.png" width="300px" height="200px">| <img src="https://github.com/SenJia/EML-NET-Saliency/blob/master/examples/imagenet_COCO_val2014_000000203754.png" width="300px" height="200px">| <img src="https://github.com/SenJia/EML-NET-Saliency/blob/master/examples/place_COCO_val2014_000000203754.png" width="300px" height="200px">
+
 ## Training
 Our training code is based on the [SALICON](http://salicon.net/challenge-2017/) dataset, we assume you already download and unzip the images and annotations under your workspace.
 ```

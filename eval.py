@@ -63,7 +63,9 @@ def main():
         img = img.permute(1,2,0).cpu()
 
         ax[0].imshow(img)
+        ax[0].set_title("Input Image")
         ax[1].imshow(pred)
+        ax[1].set_title("Prediction")
         plt.show()
 
 if __name__ == '__main__':

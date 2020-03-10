@@ -1,5 +1,7 @@
 # EML-NET-Saliency
-This repo contains the code and the pre-computed saliency maps used in our paper: "EML-NET: An Expandable Multi-Layer NETwork for saliency prediction".
+This repo contains the code and the pre-computed saliency maps used in our paper: "EML-NET: An Expandable Multi-Layer NETwork for saliency prediction". It has shown that visual saliency relies on objectness within an image, but this may also limit the performance when there is no (known) objects. Our work attempts to broaden the horizon of a saliency model by introducing more types prior knowledge in an efficient way, deeper model architectures, e.g., NasNet can be applied in an "almost" end-to-end fashion. You can also try our modified combined loss funciton as a plug-in to see how it works in your saliency system. 
+
+<img src="https://github.com/SenJia/EML-NET-Saliency/blob/master/examples/EMLNET.jpg" width="80%">
 
 ## Training
 Our training code is based on the [SALICON](http://salicon.net/challenge-2017/) dataset, we assume you already download and unzip the images and annotations under your workspace.

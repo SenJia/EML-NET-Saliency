@@ -69,7 +69,7 @@ def main():
     img_model = resnet.resnet50(args.image_model_path).cuda().eval()
     pla_model = resnet.resnet50(args.place_model_path).cuda().eval()
 
-    decoder_model = decoder.Decoder(args.size, args.num_feat, args.num_feat).cuda()
+    decoder_model = decoder.build_decoder(None, args.size, args.num_feat, args.num_feat).cuda()
 
     optimizer = torch.optim.SGD(decoder_model.parameters(), args.lr,
                                 momentum=args.momentum,

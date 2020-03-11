@@ -54,3 +54,13 @@ class Decoder(nn.Module):
         feat = torch.cat(feat, dim=1)
         feat = self.combined(feat)
         return feat
+
+def build_decoder(model_path=None, *args):
+    decoder = Decoder(*args)
+    if not model_path is None:
+        loaded = torch.load(model_path)['state_dict']
+        decoder.load_state_dict(loaded)
+        print ("Loaded decoder", model_path)
+    return decoder
+
+

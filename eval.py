@@ -51,7 +51,8 @@ def main():
     pil_img = Image.open(args.img_path).convert('RGB')
     processed = preprocess(pil_img).unsqueeze(0).cuda()
 
-    pred_batch = model(processed)
+    with torch.no_grad():
+        pred_batch = model(processed)
 
     for img, pred in zip(processed, pred_batch):
         fig, ax = plt.subplots(1, 2)

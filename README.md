@@ -16,10 +16,10 @@ salicon
 │     │   *.jpg
 |     |
 └───fixations
-|       |  *.mat
-|       |
+|     |  *.mat
+|     |
 └───maps
-     │   *.png
+      │   *.png
 ```
 
 Our training code "train_resnet.py" taks two compulsory arguements, 1. "data_folder"(the path of your workspace). 2 "output_folder"(the folder you want to save the trained model). One more optional arguement you might want to set is "--model_path", pre-trained on ImageNet or PLACE365 for classification, it will train from scratch if not specified.

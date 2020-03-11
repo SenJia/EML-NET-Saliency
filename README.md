@@ -41,3 +41,18 @@ python eval.py pretrained_sal/imagenet_sal.pth.tar examples/115.jpg
 Download the pre-trained model first and save it somewhere, e.g., pretrained_sal.
 
 TODO: upload the pre-trained model.
+
+If you think our project is helpful, please cite our work:
+
+@article{JIA20EML,  
+title = "EML-NET: An Expandable Multi-Layer NETwork for saliency prediction",  
+journal = "Image and Vision Computing",  
+volume = "95",  
+pages = "103887",  
+year = "2020",  
+issn = "0262-8856",  
+doi = "https://doi.org/10.1016/j.imavis.2020.103887",  
+url = "http://www.sciencedirect.com/science/article/pii/S0262885620300196",  
+author = "Sen Jia and Neil D.B. Bruce",  
+keywords = "Saliency detection, Scalability, Loss function",  
+}

@@ -22,7 +22,7 @@ salicon
      │   *.png
 ```
 
-Our training code "train_resnet.py" taks two mandatory arguements, 1. "data_folder"(the path of your workspace). 2 "output_folder"(the folder you want to save the trained model). One more optional arguement you might want to set is "--model_path", pre-trained on ImageNet or PLACE365 for classification, it will train from scratch if not specified.
+Our training code "train_resnet.py" taks two compulsory arguements, 1. "data_folder"(the path of your workspace). 2 "output_folder"(the folder you want to save the trained model). One more optional arguement you might want to set is "--model_path", pre-trained on ImageNet or PLACE365 for classification, it will train from scratch if not specified.
 
 ```
 python train_resnet.py ~/salicon imagenet_resnet --model_path backbone/resnet50.pth.tar
@@ -31,6 +31,10 @@ A suffix of "_eml" will be added to the output path, e.g., imagenet_resnet_eml i
 
 The ImageNet pre-trained model can be obtained from torchvision, the PLACE pre-trained one can be downloaded from their official project [here](https://github.com/CSAILVision/places365). If you want to try a deeper CNN model, e.g., the NasNet used in our paper, you can download the backbone from this [project](https://github.com/Cadene/pretrained-models.pytorch). We would like to thank the authors and coders of: the Pytorch framework, the PLACE dataset and Remi Cadene for the pre-trained models. 
 
+After finetuning a backbone(resnet50 from ImageNet) on the SALICON dataset, we can combine multiple saliency models(ImageNet and PLACE) by training a decoder. In this case, we need two more compulsory arguments are needed, the model paths for imagenet and place. (You can change the code slightly to combine more for a wider horizon.)
+```
+python train_decoder.py ~/salicon imagenet_resnet pretrained_sal/imagenet_sal.pth.tar pretrained_sal/place_sal.pth.tar
+```
 TODO: the nasnet training code will be merged into this training file and the dataloder will be discarded.
 
 ## Make a prediction

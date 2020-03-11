@@ -29,6 +29,7 @@ python train_resnet.py ~/salicon imagenet_resnet --model_path backbone/resnet50.
 ```
 A suffix of "_eml" will be added to the output path, e.g., imagenet_resnet_eml in this case. If you specify the loss flag, --mse, the added suffix will be "_mse". You can simply compare our proposed loss function against the standard mean squared error.
 
+The ImageNet pre-trained model can be obtained from torchvision, the PLACE pre-trained one can be downloaded from their official project [here](https://github.com/CSAILVision/places365). If you want to try a deeper CNN model, e.g., the NasNet used in our paper, you can download the backbone from this [project](https://github.com/Cadene/pretrained-models.pytorch). We would like to thank the authors and coders of: the Pytorch framework, the PLACE dataset and Remi Cadene for the pre-trained models. 
 
 TODO: the nasnet training code will be merged into this training file and the dataloder will be discarded.
 

@@ -89,6 +89,7 @@ class ResNet(nn.Module):
         super(ResNet, self).__init__()
         self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
                                bias=False)
+
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
@@ -96,12 +97,6 @@ class ResNet(nn.Module):
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
         self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
         self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
-
-        #self.avgpool = nn.AvgPool2d(7, stride=1)
-        #self.fc = nn.Linear(512 * block.expansion, num_classes)
-        if freeze:
-            for param in self.parameters():
-                param.requires_grad = False
 
         self.mid_channels = 1
 
@@ -149,7 +144,7 @@ class ResNet(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def forward(self, x):
+    def forward(self, x, decode=False):
         h, w = x.size(2), x.size(3)
         x = self.conv1(x)
         x = self.bn1(x)
@@ -167,6 +162,9 @@ class ResNet(nn.Module):
         out2 = self.output2(out2)
         out3 = self.output3(out3)
         out4 = self.output4(out4)
+
+        if decode:
+            return [out0, out1, out2, out3, out4]
 
         out1 = F.interpolate(out1, (r, c))
         out2 = F.interpolate(out2, (r, c))
@@ -192,7 +190,9 @@ def resnet50(model_path, **kwargs):
     else:
         model = ResNet(Bottleneck, [3, 4, 6, 3], **kwargs)
         model_state = model.state_dict()
-        loaded_model = torch.load(model_path)["state_dict"]
+        loaded_model = torch.load(model_path)
+        if "state_dict" in loaded_model:
+            loaded_model = loaded_model['state_dict']
         pretrained = {k[7:]:v for k, v in loaded_model.items() if k[7:] in model_state}
         if len(pretrained) == 0:
             pretrained = {k:v for k, v in loaded_model.items() if k in model_state}

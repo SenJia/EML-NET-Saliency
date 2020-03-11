@@ -1,8 +1,7 @@
-# This is the code to train our EML net for salency detection.
-# The backbone used is ResNet50.
+# This is the code used to train a decoder to combine two pre-treained saliency models.
 #
 # Author: Sen Jia
-# Date: 09 / Mar / 2020
+# Date: 10 / Mar / 2020
 #
 import argparse
 import os
@@ -16,13 +15,16 @@ import torchvision.transforms as transforms
 import SaliconLoader
 import EMLLoss
 import resnet
+import decoder
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('data_folder', type=pl.Path,
                     help='the folder of salicon data')
 parser.add_argument('output_folder', type=str,
                     help='the folder used to save the trained model')
-parser.add_argument('--model_path', default=None, type=pl.Path,
+parser.add_argument('image_model_path', default=None, type=pl.Path,
+                    help='the path of the pre-trained model')
+parser.add_argument('place_model_path', default=None, type=pl.Path,
                     help='the path of the pre-trained model')
 
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
@@ -51,6 +53,10 @@ parser.add_argument('--mse', action="store_true",
                     help='apply MSE as a loss function')
 parser.add_argument('--gpu', default='0', type=str,
                     help='The index of the gpu you want to use')
+parser.add_argument('--size', default=(480, 640), type=tuple,
+                    help='resize the input image, (640,480) is from the training data, SALICON.')
+parser.add_argument('--num_feat', default=5, type=int,
+                    help='the number of features collected from each model')
 
 args = parser.parse_args()
 
@@ -60,9 +66,12 @@ os.environ["CUDA_VISIBLE_DEVICES"]=args.gpu
 def main():
     global args
 
-    model = resnet.resnet50(args.model_path).cuda()
+    img_model = resnet.resnet50(args.image_model_path).cuda().eval()
+    pla_model = resnet.resnet50(args.place_model_path).cuda().eval()
 
-    optimizer = torch.optim.SGD(model.parameters(), args.lr,
+    decoder_model = decoder.Decoder(args.size, args.num_feat, args.num_feat).cuda()
+
+    optimizer = torch.optim.SGD(decoder_model.parameters(), args.lr,
                                 momentum=args.momentum,
                                 weight_decay=args.weight_decay)
 
@@ -91,10 +100,10 @@ def main():
 
     for epoch in range(args.start_epoch, args.epochs):
         adjust_learning_rate(optimizer, epoch)
-        train(train_loader, model, criterion, optimizer, epoch)
+        train(train_loader, img_model, pla_model, decoder_model, criterion, optimizer, epoch)
 
     state = {
-        'state_dict' : model.state_dict(),
+        'state_dict' : decoder_model.state_dict(),
         }
 
     save_path = args.output_folder / ("model.pth.tar")
@@ -103,9 +112,9 @@ def main():
 def save_model(state, path):
     torch.save(state, path)
 
-def train(train_loader, model, criterion, optimizer, epoch):
+def train(train_loader, img_model, pla_model, decoder_model, criterion, optimizer, epoch):
     losses = AverageMeter()
-    model.train()
+    decoder_model.train()
 
     for i, (input, fixmap, smap) in enumerate(train_loader):
 
@@ -113,7 +122,11 @@ def train(train_loader, model, criterion, optimizer, epoch):
         fixmap = fixmap.cuda()
         smap = smap.cuda()
 
-        decoded = model(input)
+        with torch.no_grad(): 
+            img_feat = img_model(input, decode=True)
+            pla_feat = pla_model(input, decode=True)
+
+        decoded = decoder_model([img_feat, pla_feat])
 
         if args.mse: 
             loss = criterion(decoded, smap)
@@ -124,6 +137,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
 
         optimizer.zero_grad()
         loss.backward()
+
         optimizer.step()
 
         if i % args.print_freq == 0:

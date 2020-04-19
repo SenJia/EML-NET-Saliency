@@ -44,7 +44,9 @@ python eval.py pretrained_sal/imagenet_sal.pth.tar examples/115.jpg
 ```
 Download the pre-trained model first and save it somewhere, e.g., pretrained_sal.
 
-TODO: upload the pre-trained model.
+<!-- TODO: upload the pre-trained model. -->
+
+Pre-computed maps on the SALICON-val set: [ResNet50](https://drive.google.com/file/d/1gxm8MiNnw7_jPY4hS3hrg4IbOvFwiYHZ/view?usp=sharing), [NasNet](https://drive.google.com/file/d/16m2RC8MZSdvOVxK7p2NfX9rCFTACuFfj/view?usp=sharing)  
 
 If you think our project is helpful, please cite our work:
 

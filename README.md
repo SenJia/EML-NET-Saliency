@@ -38,7 +38,7 @@ python train_decoder.py ~/salicon imagenet_resnet pretrained_sal/imagenet_sal.pt
 TODO: the nasnet training code will be merged into this training file and the dataloder will be discarded.
 
 ## Make a prediction
-Update: You can download our pre-trained models based on the resnet backbone, a) pre-trained on imagenet; b) pre-trained on place365; c) the pre-trained decoder to combine a) and b).
+Update: You can download our pre-trained models based on the resnet backbone, a) pre-trained on imagenet [google drive](https://drive.google.com/open?id=1-a494canr9qWKLdm-DUDMgbGwtlAJz71); b) pre-trained on place365 [google drive](https://drive.google.com/open?id=18nRz0JSRICLqnLQtAvq01azZAsH0SEzS); c) the pre-trained decoder [google drive](https://drive.google.com/open?id=1vwrkz3eX-AMtXQE08oivGMwS4lKB74sH) to combine a) and b). Please save the models under folder "backbone/".
 
 Then you can run our code to load the pre-trained models and make a prediction on your images. The evaluation file "eval_combined.py" requires four arguments: 1. the model path for the imagenet model. 2. the model path for the place model. 3. the model path for the decoder. 4. the path of your input image. It will save the prediction under current folder, you might want to change the path.
 

@@ -98,13 +98,13 @@ class ResNet(nn.Module):
         self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
         self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
 
-        self.mid_channels = 1
+        self.out_channels = 1
 
-        self.output0 = self._make_output(64, readout=self.mid_channels) 
-        self.output1 = self._make_output(256, readout=self.mid_channels) 
-        self.output2 = self._make_output(512, readout=self.mid_channels) 
-        self.output3 = self._make_output(1024, readout=self.mid_channels) 
-        self.output4 = self._make_output(2048, readout=self.mid_channels) 
+        self.output0 = self._make_output(64, readout=self.out_channels) 
+        self.output1 = self._make_output(256, readout=self.out_channels) 
+        self.output2 = self._make_output(512, readout=self.out_channels) 
+        self.output3 = self._make_output(1024, readout=self.out_channels) 
+        self.output4 = self._make_output(2048, readout=self.out_channels) 
 
         self.combined = self._make_output(5, sigmoid=True)  # use sigmoid for activation in the last layer.
 
@@ -184,8 +184,8 @@ def resnet50(model_path, **kwargs):
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
+    model = ResNet(Bottleneck, [3, 4, 6, 3], **kwargs)
     if model_path is None:
-        model = ResNet(Bottleneck, [3, 4, 6, 3], **kwargs)
         print ("Training from scratch.")
     else:
         model = ResNet(Bottleneck, [3, 4, 6, 3], **kwargs)

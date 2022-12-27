@@ -4,13 +4,16 @@
 #
 
 import random
+import pathlib as pl
 
 import torch.utils.data as data
 from PIL import Image
 from scipy import io
 
 def make_trainset(root):
-
+    if not isinstance(root, pl.Path):
+        root = pl.Path(root)
+        
     img_root = root / "images/train"
     fix_root = root / "fixations/train"
     map_root = root / "maps/train"

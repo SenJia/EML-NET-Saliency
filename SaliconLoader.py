@@ -67,7 +67,7 @@ class ImageList(data.Dataset):
 
         imgs = make_trainset(root)
         if not imgs:
-            raise(RuntimeError("Found 0 images in folder: " + root + "\n"))
+            raise(RuntimeError("Found 0 images in folder: " + str(root) + "\n"))
 
         self.root = root
         self.imgs = imgs
